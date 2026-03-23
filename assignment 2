@@ -1,0 +1,28 @@
+#Q2
+# data = [[lower, upper, frequency]]
+data = [[0, 10, 2], [10, 20, 7], [20, 30, 10]]
+
+# 1. Mean
+sum_fx = sum(f * (l + u) / 2 for l, u, f in data)
+n = sum(f for l, u, f in data)
+mean = sum_fx / n
+
+# 2. Median
+h = data[0][1] - data[0][0] # Class width
+cf, cf_prev = 0, 0
+for i, (l, u, f) in enumerate(data):
+    cf += f
+    if cf >= n / 2:
+        median = l + ((n/2 - cf_prev) / f) * h
+        break
+    cf_prev = cf
+
+# 3. Mode
+max_f = max(f for l, u, f in data)
+idx = [f for l, u, f in data].index(max_f)
+l, u, f1 = data[idx]
+f0 = data[idx-1][2] if idx > 0 else 0
+f2 = data[idx+1][2] if idx < len(data)-1 else 0
+mode = l + ((f1 - f0) / (2*f1 - f0 - f2)) * h
+
+print(f"Mean: {mean}, Median: {median}, Mode: {mode}")
